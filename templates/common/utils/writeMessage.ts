@@ -37,6 +37,7 @@ export default async function writeMessage({
       .setNetworkId(NETWORK_ID as string)
       .createTransaction();
 
+
     const signedTx = await walletClient.signTransaction("Ecko", transactionBuilder);
     const kadenaClient = createClient(API_HOST);
 

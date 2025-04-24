@@ -21,9 +21,8 @@ const Home: React.FC = (): JSX.Element => {
     try {
       const accountInfo = await client.connect('Ecko');
       setAccount(accountInfo);
-      console.log('Connected account:', account);
     } catch {
-      console.log('Error');
+      console.log('Error Connecting Wallet');
     }
   };
 
@@ -42,7 +41,11 @@ const Home: React.FC = (): JSX.Element => {
   async function handleWriteMessageClick() {
     setWriteInProgress(true);
     try {
-      await writeMessage({ account, messageToWrite, client });
+      await writeMessage({
+        account: account.accountName,
+        messageToWrite,
+        walletClient: client,
+      });
       setMessageToWrite('');
     } catch (e) {
       console.log(e);
