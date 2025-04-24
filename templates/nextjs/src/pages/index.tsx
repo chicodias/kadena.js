@@ -1,5 +1,6 @@
 import readMessage from '@/utils/readMessage';
 import writeMessage from '@/utils/writeMessage';
+import { useKadenaWallet } from '@kadena/wallet-adapter-react';
 import Head from 'next/head';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -8,10 +9,23 @@ import KadenaImage from '../../public/assets/k-community-icon.png';
 import styles from '../styles/main.module.css';
 
 const Home: React.FC = (): JSX.Element => {
+  const { client, currentAdapter } = useKadenaWallet();
   const [account, setAccount] = useState<string>('');
+  const [network, setNetwork] = useState(null);
+  const [selectedWallet, setSelectedWallet] = useState('Ecko');
   const [messageToWrite, setMessageToWrite] = useState<string>('');
   const [messageFromChain, setMessageFromChain] = useState<string>('');
   const [writeInProgress, setWriteInProgress] = useState<boolean>(false);
+
+  const handleConnect = async () => {
+    try {
+      const accountInfo = await client.connect('Ecko');
+      setAccount(accountInfo);
+      console.log('Connected account:', account);
+    } catch {
+      console.log('Error');
+    }
+  };
 
   const handleAccountInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -28,7 +42,7 @@ const Home: React.FC = (): JSX.Element => {
   async function handleWriteMessageClick() {
     setWriteInProgress(true);
     try {
-      await writeMessage({ account, messageToWrite });
+      await writeMessage({ account, messageToWrite, client });
       setMessageToWrite('');
     } catch (e) {
       console.log(e);
@@ -64,11 +78,12 @@ const Home: React.FC = (): JSX.Element => {
               Start Interacting with the Kadena Blockchain
             </h1>
             <p className={styles.note}>
-              This is the Kadena starter template using <strong>NextJS</strong>&nbsp;
-              to help you get started on your blockchain development.
+              This is the Kadena starter template using <strong>NextJS</strong>
+              &nbsp; to help you get started on your blockchain development.
             </p>
             <p className={styles.note}>
-              Use the form below to interact with the Kadena blockchain using&nbsp;
+              Use the form below to interact with the Kadena blockchain
+              using&nbsp;
               <code>@kadena/client</code> and edit&nbsp;
               <code>src/pages/index.tsx</code> to get started.
             </p>
@@ -79,13 +94,18 @@ const Home: React.FC = (): JSX.Element => {
             <div className={styles.card}>
               <h4 className={styles.cardTitle}>Write to the blockchain</h4>
               <fieldset className={styles.fieldset}>
-                <label htmlFor="account" className={styles.fieldLabel}>
-                  My Account
-                </label>
+                <div className={styles.buttonWrapper}>
+                  <button onClick={handleConnect} className={styles.button}>
+                    Connect Wallet
+                  </button>
+                  <label htmlFor="account" className={styles.fieldLabel}>
+                    My Account
+                  </label>{' '}
+                </div>
                 <input
                   id="account"
                   onChange={handleAccountInputChange}
-                  value={account}
+                  value={account.accountName}
                   placeholder="Please enter a valid k:account"
                   className={`${styles.input} ${styles.codeFont}`}
                 ></input>
