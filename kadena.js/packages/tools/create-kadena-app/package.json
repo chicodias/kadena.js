@@ -1,0 +1,72 @@
+{
+  "name": "@kadena/create-kadena-app",
+  "version": "0.1.0",
+  "description": "CLI tool to create a starter project with @kadena/client integration",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kadena-community/kadena.js.git",
+    "directory": "packages/tools/create-kadena-app"
+  },
+  "license": "ISC",
+  "bin": {
+    "create-kadena-app": "./bin/index.js"
+  },
+  "files": ["dist", "lib"],
+  "contributors": [
+    {
+      "name": "Jermaine Jong",
+      "email": "jermaine@kadena.io"
+    },
+    {
+      "name": "Mohamed Ismail",
+      "email": "mohamed@kadena.io"
+    }
+  ],
+  "scripts": {
+    "cleanup": "rimraf dist lib",
+    "preinstall": "npx only-allow pnpm",
+    "copy": "node ./src/scripts/copy.mjs",
+    "build": "pnpm run cleanup && tsc && pnpm run copy",
+    "format": "prettier config src templates --write",
+    "lint": "eslint ./src --ext .js,.ts --fix",
+    "start": "ts-node --transpile-only src/index.ts",
+    "test": "rimraf test-* && heft test && cross-env NG_CLI_ANALYTICS=false ./scripts/generate-test.sh"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.2",
+    "commander": "^11.1.0",
+    "cross-fetch": "~4.0.0",
+    "cross-spawn": "~7.0.3",
+    "yaml": "~2.3.4"
+  },
+  "devDependencies": {
+    "@kadena-dev/eslint-config": "~1.0.2",
+    "@kadena/client": "1.17.1",
+    "@kadena/wallet-adapter-core": "0.0.1-beta.2",
+    "@kadena/wallet-adapter-ecko": "0.0.1-beta.2",
+    "@kadena-dev/heft-rig": "~0.1.0",
+    "@rushstack/eslint-config": "~3.4.1",
+    "@rushstack/heft": "~0.50.6",
+    "@types/cross-spawn": "~6.0.5",
+    "@types/debug": "~4.1.12",
+    "@types/heft-jest": "~1.0.6",
+    "@types/mkdirp": "~2.0.0",
+    "@types/node": "^20.9.0",
+    "@types/rimraf": "~4.0.5",
+    "chalk": "4.1.2",
+    "cross-env": "~7.0.3",
+    "eslint": "^8.53.0",
+    "prettier": "~3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "prettier-plugin-packagejson": "^2.4.6",
+    "recursive-copy": "^2.0.14",
+    "rimraf": "~5.0.5",
+    "ts-node": "~10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18.16.1",
+    "pnpm": ">=8.7.4"
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
+}
