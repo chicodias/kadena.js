@@ -24,10 +24,12 @@
  */
 
 import type {
+  CommandSigDatas,
   IAccountInfo,
   IBaseWalletAdapterOptions,
   ICommand,
   INetworkInfo,
+  ISigningRequestPartial,
 } from '@kadena/wallet-adapter-core';
 import { BaseWalletAdapter } from '@kadena/wallet-adapter-core';
 import { ERRORS } from './constants';
@@ -410,7 +412,7 @@ export class EckoWalletAdapter extends BaseWalletAdapter {
           method: 'kda_requestSign',
           data: {
             networkId: this.networkId,
-            signingCmd: params,
+            signingCmd: params as ISigningRequestPartial,
           },
         })) as {
           status: string;
@@ -443,7 +445,9 @@ export class EckoWalletAdapter extends BaseWalletAdapter {
         } as ExtendedMethodMap[M]['response'];
       }
       case 'kadena_quicksign_v1': {
-        const { commandSigDatas } = params as any;
+        const { commandSigDatas } = params as {
+          commandSigDatas: CommandSigDatas;
+        };
         const response = (await this.provider.request({
           method: 'kda_requestQuickSign',
           data: {
