@@ -1,5 +1,5 @@
 /**
- * EckoWalletAdapter
+ * EckoAdapter
  *
  * This module provides a comprehensive adapter implementation for Ecko Wallet,
  * extending the BaseWalletAdapter from '@kadena/wallet-adapter-core'. It serves as a bridge
@@ -48,10 +48,10 @@ import { safeJsonParse } from './utils/json';
 
 /**
  * @public
- * EckoWalletAdapter is a class that extends BaseWalletAdapter to provide
+ * EckoAdapter is a class that extends BaseWalletAdapter to provide
  * functionality for connecting to the Ecko Wallet.
  */
-export class EckoWalletAdapter extends BaseWalletAdapter {
+export class EckoAdapter extends BaseWalletAdapter {
   public name: string = 'Ecko';
 
   // Listeners for 'kadena_networkChanged'.
@@ -60,7 +60,7 @@ export class EckoWalletAdapter extends BaseWalletAdapter {
   private _accountChangeListeners: Array<(...args: any[]) => void> = [];
 
   /**
-   * Constructor for the EckoWalletAdapter.
+   * Constructor for the EckoAdapter.
    * @param options - Optional adapter options.
    */
   public constructor(options: IBaseWalletAdapterOptions) {
@@ -198,7 +198,7 @@ export class EckoWalletAdapter extends BaseWalletAdapter {
    *
    * @param event - The event name.
    * @param listener - The callback function.
-   * @returns The instance of EckoWalletAdapter.
+   * @returns The instance of EckoAdapter.
    */
   public on(event: string, listener: (...args: any[]) => void): this {
     if (!this.provider) throw new Error(ERRORS.PROVIDER_NOT_DETECTED);
@@ -257,7 +257,7 @@ export class EckoWalletAdapter extends BaseWalletAdapter {
    *
    * @param event - The event name.
    * @param listener - The callback function.
-   * @returns The instance of EckoWalletAdapter.
+   * @returns The instance of EckoAdapter.
    */
   public off(event: string, listener: (...args: any[]) => void): this {
     if (!this.provider) throw new Error(ERRORS.PROVIDER_NOT_DETECTED);
