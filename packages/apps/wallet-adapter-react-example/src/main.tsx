@@ -15,6 +15,7 @@ import { darkThemeClass } from '@kadena/kode-ui/styles';
 import type { AdapterFactory } from '@kadena/wallet-adapter-core';
 import { createEckoAdapter } from '@kadena/wallet-adapter-ecko';
 import { KadenaWalletProvider } from '@kadena/wallet-adapter-react';
+import { createSnapAdapter } from '@kadena/wallet-adapter-snap';
 import { createWalletConnectAdapter } from '@kadena/wallet-adapter-walletconnect';
 import { ThemeProvider } from 'next-themes';
 import React from 'react';
@@ -25,6 +26,7 @@ import App from './App';
 const adapters: AdapterFactory[] = [
   createEckoAdapter(),
   createWalletConnectAdapter(),
+  createSnapAdapter(),
 ];
 
 // Render the React application, providing the adapters to KadenaWalletProvider.
